@@ -57,6 +57,7 @@ namespace FileBrowser
             foreach (FileInfo file in files)
             {
                 ListViewItem item = new(file.Name);
+                item.SubItems.Add(BytesToString(file.Length));
                 listView1.Items.Add(item);
             }
             listView1.EndUpdate();
@@ -160,6 +161,36 @@ namespace FileBrowser
                 baseNode = nextNode;
             }
             treeView1.SelectedNode = baseNode;
+
+        }
+
+        private static string BytesToString(long bytes)
+        {
+            int indices = (int)MathF.Floor(MathF.Log(bytes, 1024));
+            string extension = string.Empty;
+            switch (indices)
+            {
+                case 0:
+                    extension = "B";
+                    break;
+                case 1:
+                    extension = "KB";
+                    break;
+                case 2:
+                    extension = "MB";
+                    break;
+                case 3:
+                    extension = "GB";
+                    break;
+                case 4:
+                    extension = "TB";
+                    break;
+                case 5:
+                    extension = "PB";
+                    break;
+            }
+            float shortBytes = MathF.Round(bytes / MathF.Pow(1024, indices), 1);
+            return $"{shortBytes} {extension}";
 
         }
     }

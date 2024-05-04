@@ -29,12 +29,13 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
-            textBox1 = new TextBox();
             treeView1 = new TreeView();
+            textBox1 = new TextBox();
             splitter1 = new Splitter();
             panel2 = new Panel();
             listView1 = new ListView();
             columnHeader1 = new ColumnHeader();
+            columnHeader2 = new ColumnHeader();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -49,15 +50,6 @@
             panel1.Size = new Size(200, 450);
             panel1.TabIndex = 0;
             // 
-            // textBox1
-            // 
-            textBox1.Dock = DockStyle.Top;
-            textBox1.Location = new Point(0, 0);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(200, 23);
-            textBox1.TabIndex = 1;
-            textBox1.KeyPress += textBox1_KeyPress;
-            // 
             // treeView1
             // 
             treeView1.Dock = DockStyle.Fill;
@@ -67,6 +59,15 @@
             treeView1.TabIndex = 0;
             treeView1.BeforeExpand += treeView1_BeforeExpand;
             treeView1.AfterSelect += treeView1_AfterSelect;
+            // 
+            // textBox1
+            // 
+            textBox1.Dock = DockStyle.Top;
+            textBox1.Location = new Point(0, 0);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(200, 23);
+            textBox1.TabIndex = 1;
+            textBox1.KeyPress += textBox1_KeyPress;
             // 
             // splitter1
             // 
@@ -87,7 +88,7 @@
             // 
             // listView1
             // 
-            listView1.Columns.AddRange(new ColumnHeader[] { columnHeader1 });
+            listView1.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2 });
             listView1.Dock = DockStyle.Fill;
             listView1.Location = new Point(0, 0);
             listView1.Name = "listView1";
@@ -100,6 +101,10 @@
             // 
             columnHeader1.Text = "File";
             columnHeader1.Width = 150;
+            // 
+            // columnHeader2
+            // 
+            columnHeader2.Text = "Size";
             // 
             // Form1
             // 
@@ -127,5 +132,6 @@
         private Panel panel2;
         private ListView listView1;
         private ColumnHeader columnHeader1;
+        private ColumnHeader columnHeader2;
     }
 }
