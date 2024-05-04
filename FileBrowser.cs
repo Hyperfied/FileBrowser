@@ -15,6 +15,7 @@ namespace FileBrowser
         {
             UpdateDrives();
             ShowFirstDirs();
+            ExpandTo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
