@@ -36,6 +36,7 @@
             listView1 = new ListView();
             columnHeader1 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
+            columnHeader3 = new ColumnHeader();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -47,7 +48,7 @@
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(200, 450);
+            panel1.Size = new Size(278, 450);
             panel1.TabIndex = 0;
             // 
             // treeView1
@@ -55,7 +56,7 @@
             treeView1.Dock = DockStyle.Fill;
             treeView1.Location = new Point(0, 23);
             treeView1.Name = "treeView1";
-            treeView1.Size = new Size(200, 427);
+            treeView1.Size = new Size(278, 427);
             treeView1.TabIndex = 0;
             treeView1.BeforeExpand += treeView1_BeforeExpand;
             treeView1.AfterSelect += treeView1_AfterSelect;
@@ -65,13 +66,13 @@
             textBox1.Dock = DockStyle.Top;
             textBox1.Location = new Point(0, 0);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(200, 23);
+            textBox1.Size = new Size(278, 23);
             textBox1.TabIndex = 1;
             textBox1.KeyPress += textBox1_KeyPress;
             // 
             // splitter1
             // 
-            splitter1.Location = new Point(200, 0);
+            splitter1.Location = new Point(278, 0);
             splitter1.Name = "splitter1";
             splitter1.Size = new Size(3, 450);
             splitter1.TabIndex = 1;
@@ -81,18 +82,18 @@
             // 
             panel2.Controls.Add(listView1);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(203, 0);
+            panel2.Location = new Point(281, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(597, 450);
+            panel2.Size = new Size(519, 450);
             panel2.TabIndex = 2;
             // 
             // listView1
             // 
-            listView1.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2 });
+            listView1.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3 });
             listView1.Dock = DockStyle.Fill;
             listView1.Location = new Point(0, 0);
             listView1.Name = "listView1";
-            listView1.Size = new Size(597, 450);
+            listView1.Size = new Size(519, 450);
             listView1.TabIndex = 0;
             listView1.UseCompatibleStateImageBehavior = false;
             listView1.View = View.Details;
@@ -105,6 +106,12 @@
             // columnHeader2
             // 
             columnHeader2.Text = "Size";
+            columnHeader2.Width = 100;
+            // 
+            // columnHeader3
+            // 
+            columnHeader3.Text = "Date modified";
+            columnHeader3.Width = 150;
             // 
             // FileBrowser
             // 
@@ -116,7 +123,7 @@
             Controls.Add(panel1);
             Name = "FileBrowser";
             Text = "File Browser";
-            Load += this.FileBrowser_Load;
+            Load += FileBrowser_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
@@ -133,5 +140,6 @@
         private ListView listView1;
         private ColumnHeader columnHeader1;
         private ColumnHeader columnHeader2;
+        private ColumnHeader columnHeader3;
     }
 }

@@ -56,8 +56,9 @@ namespace FileBrowser
             listView1.BeginUpdate();
             foreach (FileInfo file in files)
             {
-                ListViewItem item = new(file.Name);
-                item.SubItems.Add(BytesToString(file.Length));
+                ListViewItem item = new(file.Name); // File name
+                item.SubItems.Add(BytesToString(file.Length)); // File Size 
+                item.SubItems.Add(file.LastWriteTime.ToString()); // Date modified
                 listView1.Items.Add(item);
             }
             listView1.EndUpdate();
