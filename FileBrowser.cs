@@ -3,15 +3,15 @@ using System.Reflection.Metadata;
 
 namespace FileBrowser
 {
-    public partial class Form1 : Form
+    public partial class FileBrowser : Form
     {
 
-        public Form1()
+        public FileBrowser()
         {
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void FileBrowser_Load(object sender, EventArgs e)
         {
             UpdateDrives();
             ShowFirstDirs();

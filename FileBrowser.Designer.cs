@@ -1,6 +1,6 @@
 ﻿namespace FileBrowser
 {
-    partial class Form1
+    partial class FileBrowser
     {
         /// <summary>
         ///  Required designer variable.
@@ -106,7 +106,7 @@
             // 
             columnHeader2.Text = "Size";
             // 
-            // Form1
+            // FileBrowser
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -114,9 +114,9 @@
             Controls.Add(panel2);
             Controls.Add(splitter1);
             Controls.Add(panel1);
-            Name = "Form1";
+            Name = "FileBrowser";
             Text = "File Browser";
-            Load += Form1_Load;
+            Load += this.FileBrowser_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
