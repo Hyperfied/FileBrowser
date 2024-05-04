@@ -5,6 +5,7 @@ namespace FileBrowser
 {
     public partial class FileBrowser : Form
     {
+        TreeNode? rightClickedNode;
 
         public FileBrowser()
         {
@@ -194,6 +195,38 @@ namespace FileBrowser
             float shortBytes = MathF.Round(bytes / MathF.Pow(1024, indices), 1);
             return $"{shortBytes} {extension}";
 
+        }
+
+        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                rightClickedNode = e.Node;
+                contextMenuStrip1.Show(this, new Point(e.X, e.Y));
+            }
+        }
+
+        private void propertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // TODO recursively search through folders to work out actual size
+            if (rightClickedNode == null) return;
+            DirectoryInfo dInfo = new DirectoryInfo(rightClickedNode.FullPath);
+            FileInfo[] files = [];
+
+            try { files = dInfo.GetFiles(); }
+            catch (UnauthorizedAccessException) 
+            {
+                MessageBox.Show("Unauthorized access to this directory.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            long total = 0;
+            foreach (FileInfo file in files)
+            {
+                total += file.Length;
+            }
+
+            MessageBox.Show($"Size: {BytesToString(total)}");
         }
     }
 }
