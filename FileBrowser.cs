@@ -168,7 +168,7 @@ namespace FileBrowser
 
         }
 
-        private static string BytesToString(long bytes)
+        public static string BytesToString(long bytes)
         {
             int indices = (int)MathF.Floor(MathF.Log(bytes, 1024));
             string extension = string.Empty;
@@ -209,53 +209,13 @@ namespace FileBrowser
 
         private void propertiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // TODO recursively search through folders to work out actual size
-            /*if (rightClickedNode == null) return;
-            DirectoryInfo dInfo = new DirectoryInfo(rightClickedNode.FullPath);
-            FileInfo[] files = [];
-
-            try { files = dInfo.GetFiles(); }
-            catch (UnauthorizedAccessException) 
-            {
-                MessageBox.Show("Unauthorized access to this directory.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            long total = 0;
-            foreach (FileInfo file in files)
-            {
-                total += file.Length;
-            }
-
-            MessageBox.Show($"Size: {BytesToString(total)}");*/
             if (rightClickedNode == null) return;
             DirectoryInfo dInfo = new DirectoryInfo(rightClickedNode.FullPath);
 
-            long total = CalculateDirectorySize(dInfo);
-            MessageBox.Show($"Size: {BytesToString(total)}");
+            PropertiesForm propertiesForm = new PropertiesForm();
+            propertiesForm.directory = dInfo;
+            propertiesForm.ShowDialog();
 
-        }
-
-        private long CalculateDirectorySize(DirectoryInfo directory)
-        {
-            DirectoryInfo[] directories = [];
-            FileInfo[] files = []; 
-
-            try { files = directory.GetFiles(); } catch (UnauthorizedAccessException) { }
-            try { directories = directory.GetDirectories(); } catch (UnauthorizedAccessException) { }
-
-            long total = 0;
-            foreach (DirectoryInfo nestedDir in directories)
-            {
-                total += CalculateDirectorySize(nestedDir);
-            }
-
-            foreach (FileInfo file in files)
-            {
-                total += file.Length;
-            }
-
-            return total;
         }
     }
 }
