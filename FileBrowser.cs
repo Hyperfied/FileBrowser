@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Numerics;
 using System.Reflection.Metadata;
 
 namespace FileBrowser
@@ -209,7 +210,7 @@ namespace FileBrowser
         private void propertiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // TODO recursively search through folders to work out actual size
-            if (rightClickedNode == null) return;
+            /*if (rightClickedNode == null) return;
             DirectoryInfo dInfo = new DirectoryInfo(rightClickedNode.FullPath);
             FileInfo[] files = [];
 
@@ -226,7 +227,35 @@ namespace FileBrowser
                 total += file.Length;
             }
 
+            MessageBox.Show($"Size: {BytesToString(total)}");*/
+            if (rightClickedNode == null) return;
+            DirectoryInfo dInfo = new DirectoryInfo(rightClickedNode.FullPath);
+
+            long total = CalculateDirectorySize(dInfo);
             MessageBox.Show($"Size: {BytesToString(total)}");
+
+        }
+
+        private long CalculateDirectorySize(DirectoryInfo directory)
+        {
+            DirectoryInfo[] directories = [];
+            FileInfo[] files = []; 
+
+            try { files = directory.GetFiles(); } catch (UnauthorizedAccessException) { }
+            try { directories = directory.GetDirectories(); } catch (UnauthorizedAccessException) { }
+
+            long total = 0;
+            foreach (DirectoryInfo nestedDir in directories)
+            {
+                total += CalculateDirectorySize(nestedDir);
+            }
+
+            foreach (FileInfo file in files)
+            {
+                total += file.Length;
+            }
+
+            return total;
         }
     }
 }
