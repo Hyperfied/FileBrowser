@@ -6,11 +6,14 @@ namespace FileBrowser
 {
     public partial class FileBrowser : Form
     {
-        TreeNode? rightClickedNode;
+        private TreeNode? rightClickedNode;
+        private ListViewColumnSorter columnSorter;
 
         public FileBrowser()
         {
             InitializeComponent();
+            columnSorter = new();
+            listView1.ListViewItemSorter = columnSorter;
         }
 
         private void FileBrowser_Load(object sender, EventArgs e)
@@ -198,6 +201,36 @@ namespace FileBrowser
 
         }
 
+        public static long StringToBytes(string bytes)
+        {
+            string[] splitString = bytes.Split(' ');
+            float num = float.Parse(splitString[0]);
+            int indices = 0;
+
+            switch (splitString[1])
+            {
+                case "KB":
+                    indices = 1;
+                    break;
+                case "MB":
+                    indices = 2;
+                    break;
+                case "GB":
+                    indices = 3;
+                    break;
+                case "TB":
+                    indices = 4;
+                    break;
+                case "PB":
+                    indices = 5;
+                    break;
+            }
+
+            float actualBytes = (MathF.Pow(1024, indices) * num);
+            return (long)actualBytes; 
+
+        }
+
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -216,6 +249,29 @@ namespace FileBrowser
             propertiesForm.directory = dInfo;
             propertiesForm.ShowDialog();
 
+        }
+
+        private void listView1_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            if (e.Column == columnSorter.SortColumn)
+            {
+                if (columnSorter.Order == SortOrder.Ascending)
+                {
+                    columnSorter.Order = SortOrder.Descending;
+                } 
+                else 
+
+                {
+                    columnSorter.Order = SortOrder.Ascending;
+                }
+            }
+            else
+            {
+                columnSorter.SortColumn = e.Column;
+                columnSorter.Order = SortOrder.Ascending;
+            }
+
+            listView1.Sort();
         }
     }
 }
