@@ -14,16 +14,26 @@ namespace FileBrowser
     {
         private string input = "";
         private string caption;
+        private string hint;
 
         public Prompt(string caption)
         {
             InitializeComponent();
             this.caption = caption;
+            hint = "";
+        }
+
+        public Prompt(string caption, string hint)
+        {
+            InitializeComponent();
+            this.caption = caption;
+            this.hint = hint;
         }
 
         private void Prompt_Load(object sender, EventArgs e)
         {
             Text = caption;
+            textBox1.Text = hint;
         }
 
         private void OKButton_Click(object sender, EventArgs e)

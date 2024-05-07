@@ -131,7 +131,7 @@ namespace FileBrowser
         {
             List<string> split = [.. path.Split('\\')];
             split.RemoveAll(s => s.Length == 0);
-            
+
 
             TreeNode? baseNode = null;
             foreach (TreeNode node in treeView1.Nodes)
@@ -141,7 +141,7 @@ namespace FileBrowser
                     baseNode = node;
                 }
             }
-            
+
             if (baseNode == null)
             {
                 MessageBox.Show("Cannot find path.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -292,22 +292,45 @@ namespace FileBrowser
                         return;
                     }
                     Directory.CreateDirectory($"{rightClickedNode.FullPath}\\{response}");
-                    string[] split = response.Split( '\\' );
+                    string[] split = response.Split('\\');
                     TreeNode root = rightClickedNode;
                     TreeNode tn = new();
-                    foreach (string s in split )
+                    foreach (string s in split)
                     {
                         tn = new TreeNode(s);
                         root.Nodes.Add(tn);
                         root = tn;
-                    } 
+                    }
                     ExpandTo(tn.FullPath);
-                } 
-                catch (IOException) 
+                }
+                catch (IOException)
                 {
                     MessageBox.Show("Invalid character in folder name.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                
+
+            }
+        }
+
+        private void renameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (rightClickedNode == null) return;
+            Prompt prompt = new("Enter new folder name", rightClickedNode.Text);
+            prompt.ShowDialog();
+            string response = prompt.Response;
+
+            if (response != "")
+            {
+                string newPath = $"{rightClickedNode.Parent.FullPath}\\{response}";
+                try
+                {
+                    Directory.Move(rightClickedNode.FullPath, newPath);
+                    rightClickedNode.Text = response;
+                    ExpandTo(rightClickedNode.FullPath);
+                }
+                catch (IOException)
+                {
+                    MessageBox.Show("Invalid character.");
+                }
             }
         }
     }
