@@ -129,7 +129,9 @@ namespace FileBrowser
 
         private void ExpandTo(string path)
         {
-            string[] split = path.Split('\\');
+            List<string> split = [.. path.Split('\\')];
+            split.RemoveAll(s => s.Length == 0);
+            
 
             TreeNode? baseNode = null;
             foreach (TreeNode node in treeView1.Nodes)
@@ -139,7 +141,7 @@ namespace FileBrowser
                     baseNode = node;
                 }
             }
-
+            
             if (baseNode == null)
             {
                 MessageBox.Show("Cannot find path.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -147,7 +149,7 @@ namespace FileBrowser
             }
 
             baseNode.Expand();
-            for (int i = 1; i < split.Length; i++)
+            for (int i = 1; i < split.Count; i++)
             {
                 TreeNode? nextNode = null;
                 foreach (TreeNode node in baseNode.Nodes)
@@ -164,7 +166,6 @@ namespace FileBrowser
                     return;
                 }
                 nextNode.Expand();
-                Debug.WriteLine(baseNode.FullPath);
                 baseNode = nextNode;
             }
             treeView1.SelectedNode = baseNode;
@@ -227,7 +228,7 @@ namespace FileBrowser
             }
 
             float actualBytes = (MathF.Pow(1024, indices) * num);
-            return (long)actualBytes; 
+            return (long)actualBytes;
 
         }
 
@@ -258,8 +259,8 @@ namespace FileBrowser
                 if (columnSorter.Order == SortOrder.Ascending)
                 {
                     columnSorter.Order = SortOrder.Descending;
-                } 
-                else 
+                }
+                else
 
                 {
                     columnSorter.Order = SortOrder.Ascending;
@@ -272,6 +273,42 @@ namespace FileBrowser
             }
 
             listView1.Sort();
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (rightClickedNode == null) return;
+            Prompt prompt = new("Enter folder name");
+            prompt.ShowDialog();
+            string response = prompt.Response;
+
+            if (response != "")
+            {
+                try
+                {
+                    if (Directory.Exists($"{rightClickedNode.FullPath}\\{response}"))
+                    {
+                        MessageBox.Show("Folder already exists.", "Duplicate Folder", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        return;
+                    }
+                    Directory.CreateDirectory($"{rightClickedNode.FullPath}\\{response}");
+                    string[] split = response.Split( '\\' );
+                    TreeNode root = rightClickedNode;
+                    TreeNode tn = new();
+                    foreach (string s in split )
+                    {
+                        tn = new TreeNode(s);
+                        root.Nodes.Add(tn);
+                        root = tn;
+                    } 
+                    ExpandTo(tn.FullPath);
+                } 
+                catch (IOException) 
+                {
+                    MessageBox.Show("Invalid character in folder name.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
+            }
         }
     }
 }
