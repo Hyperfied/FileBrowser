@@ -333,5 +333,18 @@ namespace FileBrowser
                 }
             }
         }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (rightClickedNode == null) return;
+            DialogResult result = MessageBox.Show($"Are you sure you want to delete {rightClickedNode.Name}", "Delete Folder", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                Directory.Delete(rightClickedNode.FullPath);
+                TreeNode prevNode = rightClickedNode.Parent;
+                rightClickedNode.Remove();
+                ExpandTo(prevNode.FullPath); 
+            }
+        }
     }
 }
